@@ -14,6 +14,6 @@ export interface User {
  * User role type definition.
  */
 export enum UserRole {
-  ADMIN,
-  USER
+  ADMIN = 'admin',
+  USER = 'user'
 }
