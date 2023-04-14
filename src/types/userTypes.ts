@@ -1,4 +1,4 @@
-import { DataAccessObject } from './daoTypes';
+import { DataAccessObject, MongoID } from './daoTypes';
 
 /**
  * User data type definition.
@@ -31,9 +31,18 @@ export type UserServiceOption = {
  * User service type definition.
  */
 export interface IUserService {
-  createUser(user: User): Promise<User | undefined>;
-  getUserById(id: string): Promise<User | null | undefined>;
-  getUserByEmail(email: string): Promise<User | null | undefined>;
-  updateUser(id: string, user: Partial<User>): Promise<User | null | undefined>;
-  deleteUser(id: string): Promise<User | null | undefined>;
+  create(user: User): Promise<(User & { _id: MongoID }) | undefined>;
+  getById(id: string): Promise<(User & { _id: MongoID }) | null | undefined>;
+  getUsers(
+    limit: number,
+    cursor?: string
+  ): Promise<Array<User & { _id: MongoID; createdAt: Date }> | undefined>;
+  getByEmail(
+    email: string
+  ): Promise<(User & { _id: MongoID }) | null | undefined>;
+  update(
+    id: string,
+    user: Partial<User>
+  ): Promise<(User & { _id: MongoID }) | null | undefined>;
+  delete(id: string): Promise<(User & { _id: MongoID }) | null | undefined>;
 }
