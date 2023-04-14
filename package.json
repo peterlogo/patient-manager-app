@@ -1,0 +1,72 @@
+{
+  "name": "patient-manager-app",
+  "version": "1.0.0",
+  "description": "A HIPAA compliant application for handling patient records.",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "format": "prettier --config .prettierrc \"./src/**/*.ts\" --write",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "generate:docs": "typedoc",
+    "dev": "nodemon",
+    "dev:watch": "concurrently npm:dev npm:test:watch",
+    "build": "tsc",
+    "build:dev": "npm run postbuild && rm -rf dist && tsc",
+    "postbuild": "npm run format && npm run lint && npm run test",
+    "postinstall": "husky install",
+    "test": "mocha --exit -r ts-node/register 'tests/**/*.ts' --timeout 10000",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha --exit -r ts-node/register 'tests/**/*.ts'",
+    "test:watch": "nodemon --exec npm test"
+  },
+  "lint-staged": {
+    "**/*.ts": [
+      "yarn lint",
+      "yarn format"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peterlogo/patient-manager-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peterlogo/patient-manager-app/issues"
+  },
+  "homepage": "https://github.com/peterlogo/patient-manager-app#readme",
+  "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/cors": "^2.8.13",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.17",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^18.15.11",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "@typescript-eslint/parser": "^5.58.0",
+    "concurrently": "^8.0.1",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
+    "nodemon": "^2.0.22",
+    "nyc": "^15.1.0",
+    "pino-pretty": "^10.0.0",
+    "prettier": "^2.8.7",
+    "ts-node": "^10.9.1",
+    "typedoc": "^0.24.1",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3",
+    "pino": "^8.11.0",
+    "pino-http": "^8.3.3"
+  }
+}
