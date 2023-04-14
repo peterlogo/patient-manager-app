@@ -21,5 +21,11 @@ jobs:
           node-version: ${{matrix.node-version}}
       - name: Install dependencies
         run: yarn install
-      - name: Running build
-        run: yarn build
+      - name: Running test
+        env:
+          PORT: ${{secrets.PORT}}
+          JWT_SECRET: ${{secrets.JWT_SECRET}}
+          ROUTE_PREFIX: ${{secrets.ROUTE_PREFIX}}
+          MONGO_URI: ${{secrets.MONGO_URI}}
+          NODE_ENV: ${{secrets.NODE_ENV}}
+        run: yarn test && yarn build
