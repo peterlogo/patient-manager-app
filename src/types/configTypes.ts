@@ -5,4 +5,5 @@ export interface Config {
   port?: number;
   mongoUri?: string;
   jwtSecret?: string;
+  nodeEnv?: string;
 }
