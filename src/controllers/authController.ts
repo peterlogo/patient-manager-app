@@ -2,9 +2,9 @@ import { Request, Response } from 'express';
 import { AuthenticationService,} from '../services';
 import { config } from '../config';
 
-const { jwtSecret } = config;
+const { jwtSecret, jwtRefreshSecret } = config;
 
-const authService = new AuthenticationService(jwtSecret as string)
+const authService = new AuthenticationService(jwtSecret as string, jwtRefreshSecret as string);
 
 export const registerUser = async (req: Request, res: Response) => {
   try {

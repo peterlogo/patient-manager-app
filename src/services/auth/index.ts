@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { IAuthenticationService, IUserService, JwtPayload, Token, User } from '../../types';
 import { UserService } from '../user';
+import { JWT_EXPIRATION_TIME, JWT_REFRESH_TOKEN_EXPIRATION_TIME } from '../../utils';
 
 export class AuthenticationService implements IAuthenticationService {
   private userService: IUserService;
@@ -17,8 +18,8 @@ export class AuthenticationService implements IAuthenticationService {
   }
 
   private generateToken(userId: string): Token {
-    const accessToken = jwt.sign({user: userId}, this.jwtSecret, { expiresIn: '1h' });
-    const refreshToken = jwt.sign({user: userId}, this.jwtRefreshSecret, { expiresIn: '7d' });
+    const accessToken = jwt.sign({user: userId}, this.jwtSecret, { expiresIn: JWT_EXPIRATION_TIME });
+    const refreshToken = jwt.sign({user: userId}, this.jwtRefreshSecret, { expiresIn: JWT_REFRESH_TOKEN_EXPIRATION_TIME });
     return {
       accessToken,
       refreshToken,
