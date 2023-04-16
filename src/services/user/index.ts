@@ -1,10 +1,5 @@
-import {
-  DataAccessObject,
-  IUserService,
-  MongoID,
-  User,
-  UserServiceOption
-} from '../../types';
+import { UserDao } from '../../dao';
+import { DataAccessObject, IUserService, MongoID, User } from '../../types';
 import { generateAvatar } from '../../utils';
 
 /**
@@ -15,8 +10,8 @@ import { generateAvatar } from '../../utils';
 export class UserService implements IUserService {
   private userDao: DataAccessObject<User>;
 
-  constructor({ userDao }: UserServiceOption) {
-    this.userDao = userDao;
+  constructor() {
+    this.userDao = new UserDao();
   }
 
   /**
