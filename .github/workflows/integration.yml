@@ -25,6 +25,7 @@ jobs:
         env:
           PORT: ${{secrets.PORT}}
           JWT_SECRET: ${{secrets.JWT_SECRET}}
+          JWT_REFRESH_SECRET: ${{secrets.JWT_REFRESH_SECRET}}
           ROUTE_PREFIX: ${{secrets.ROUTE_PREFIX}}
           MONGO_URI: ${{secrets.MONGO_URI}}
           NODE_ENV: ${{secrets.NODE_ENV}}
