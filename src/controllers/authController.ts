@@ -1,26 +1,37 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
-import { UserService } from '../services';
+import { AuthenticationService,} from '../services';
 import { config } from '../config';
 
 const { jwtSecret } = config;
-const userService = new UserService();
+
+const authService = new AuthenticationService(jwtSecret as string)
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
-    const userExists = await userService.getByEmail(email);
-    if (userExists) {
-      return res.status(400).json({ error: 'User already exists' });
+    const token = await authService.register(req.body);
+    if (!token) {
+      return res.status(401).json({
+        message: 'Authentication failed'
+      });
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await userService.create({
-      ...req.body,
-      password: hashedPassword
-    });
-    res.status(201).json({ data: user });
+    res.status(201).json({ data: token });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+
+export const loginUser = async (req: Request, res: Response) => {
+  try {
+    const {email, password} = req.body
+    const token = await authService.login(email, password);
+    if (!token) {
+      return res.status(401).json({
+        message: 'Authentication failed'
+      });
+    }
+    res.status(201).json({ data: token });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}

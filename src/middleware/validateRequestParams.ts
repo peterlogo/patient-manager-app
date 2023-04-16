@@ -10,6 +10,7 @@ export const validateRequestParams =
   (schema: zod.ZodSchema) =>
   (req: Request, res: Response, next: NextFunction) => {
     try {
+      console.log('Request params: ', req.params);
       const validateData = schema.parse(req.params);
       if (validateData) next();
     } catch (error) {
