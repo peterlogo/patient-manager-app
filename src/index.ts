@@ -6,6 +6,8 @@ import { pinoHttp } from 'pino-http';
 import { logger } from './services';
 import { config } from './config';
 import { databaseLogger, initializeMongoDBConnection } from './db';
+import { userRouter } from './routes';
+import { ROUTE_PREFIX } from './utils';
 
 const { port } = config;
 const app: Express = express();
@@ -14,6 +16,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(pinoHttp({ logger }));
+
+// Routes
+app.use(`${ROUTE_PREFIX}/users`, userRouter)
 
 initializeMongoDBConnection().catch((err) => {
   databaseLogger.error('Error initializing MongoDB connection', err);

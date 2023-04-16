@@ -2,15 +2,15 @@ import zod from 'zod';
 import { Request, Response, NextFunction } from 'express';
 
 /**
- * Middleware to validate the request body against a schema.
+ * Middleware to validate the request parameters against a schema.
  * @param schema
  * @returns
  */
-export const validateRequestBody =
+export const validateRequestParams =
   (schema: zod.ZodSchema) =>
   (req: Request, res: Response, next: NextFunction) => {
     try {
-      const validateData = schema.parse(req.body);
+      const validateData = schema.parse(req.params);
       if (validateData) next();
     } catch (error) {
       if (error instanceof zod.ZodError) {
