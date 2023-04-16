@@ -1,8 +1,18 @@
+import { User } from './userTypes';
+
+/**
+ * Authentication service type definition
+ */
 export interface IAuthenticationService {
-  register(): Promise<void>;
+  register(user: User): Promise<Token>;
+  login(email: string, password: string): Promise<Token>;
+  verifyToken(token: string): Promise<boolean>;
 }
 
-export type AuthResponse = {
+/**
+ * Token type definition
+ */
+export type Token = {
   accessToken: string;
   refreshToken: string;
 };

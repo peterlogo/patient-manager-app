@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(pinoHttp({ logger }));
 
 // Routes
-app.use(`${ROUTE_PREFIX}/users`, userRouter)
+app.use(`${ROUTE_PREFIX}/users`, userRouter);
 
 initializeMongoDBConnection().catch((err) => {
   databaseLogger.error('Error initializing MongoDB connection', err);
