@@ -9,7 +9,7 @@ import { UserModel } from '../models';
  * CRUD operations on user data.
  * @implements {DataAccessObject}
  */
-export class UserDao implements DataAccessObject<User> {
+export default class UserDao implements DataAccessObject<User> {
   private user: mongoose.Model<User>;
   private logger: Logger;
 

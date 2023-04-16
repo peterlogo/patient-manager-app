@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import mongoose, { Types } from 'mongoose';
 import { DataAccessObject, User } from '../src/types';
 import { config } from '../src/config';
-import { UserDao } from '../src/dao';
+import { UserDao } from '../src/dao/userDao';
 
 describe('User Data Access Object', () => {
   const { mongoUri } = config;
