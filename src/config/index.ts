@@ -3,7 +3,8 @@ import { Config } from '../types';
 
 dotenv.config();
 
-const { PORT, NODE_ENV, MONGO_URI, JWT_SECRET, JWT_REFRESH_SECRET } = process.env;
+const { PORT, NODE_ENV, MONGO_URI, JWT_SECRET, JWT_REFRESH_SECRET } =
+  process.env;
 
 /**
  * Server configuration object

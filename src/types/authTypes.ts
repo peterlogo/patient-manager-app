@@ -22,4 +22,4 @@ export type Token = {
  */
 export type JwtPayload = {
   user: string;
-}
+};

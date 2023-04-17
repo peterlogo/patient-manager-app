@@ -2,7 +2,7 @@ import express, { Express } from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import passport from 'passport'
+import passport from 'passport';
 import passportJwt from 'passport-jwt';
 import { pinoHttp } from 'pino-http';
 import { logger } from './services';
@@ -20,12 +20,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(pinoHttp({ logger }));
 
-passport.use(new passportJwt.Strategy({jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeaderAsBearerToken(), secretOrKey: config.jwtSecret}, (jwtPayload, done) => {
-  if (jwtPayload) {
-    return done(null, jwtPayload);
-  }
-  return done(null, false);
-}))
+passport.use(
+  new passportJwt.Strategy(
+    {
+      jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: config.jwtSecret
+    },
+    (jwtPayload, done) => {
+      if (jwtPayload) {
+        return done(null, jwtPayload);
+      }
+      return done(null, false);
+    }
+  )
+);
 
 // Routes
 app.use(`${ROUTE_PREFIX}/users`, userRouter);
