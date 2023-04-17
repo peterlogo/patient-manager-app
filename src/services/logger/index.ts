@@ -8,4 +8,13 @@ const transport = pino.transport({
   }
 });
 
-export const logger: pino.Logger = pino({ level: 'debug' }, transport);
+export const logger: pino.Logger = pino(
+  {
+    level: 'debug',
+    redact: {
+      paths: ['req.headers.authorization'],
+      censor: '[REDACTED]'
+    }
+  },
+  transport
+);

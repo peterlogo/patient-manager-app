@@ -1,0 +1,32 @@
+name: Patient Management Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - development
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    environment: development
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{matrix.node-version}}
+      - name: Install dependencies
+        run: yarn install
+      - name: Running test
+        env:
+          PORT: ${{secrets.PORT}}
+          JWT_SECRET: ${{secrets.JWT_SECRET}}
+          JWT_REFRESH_SECRET: ${{secrets.JWT_REFRESH_SECRET}}
+          ROUTE_PREFIX: ${{secrets.ROUTE_PREFIX}}
+          MONGO_URI: ${{secrets.MONGO_URI}}
+          NODE_ENV: ${{secrets.NODE_ENV}}
+        run: yarn test && yarn build
