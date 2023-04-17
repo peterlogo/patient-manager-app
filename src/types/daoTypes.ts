@@ -27,7 +27,7 @@ export interface DataAccessObject<T> {
 export interface MedicalDataAccessObject<T> {
   create(data: T): Promise<(T & { _id: MongoID }) | undefined>;
   getAll(
-    id: string,
+    patientId: string,
     limit: number,
     cursor?: string
   ): Promise<Array<T & { _id: MongoID; createdAt: Date }> | undefined>;

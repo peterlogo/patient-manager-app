@@ -1,3 +1,5 @@
+import { MongoID } from './daoTypes';
+
 export interface Patient {
   patientId?: string;
   firstName?: string;
@@ -29,40 +31,55 @@ export interface Medication {
 }
 
 export interface IPatientService {
-  create(patient: Patient): Promise<Patient | undefined>;
-  getByPatientId(patientId: string): Promise<Patient | null | undefined>;
+  create(patient: Patient): Promise<(Patient & { _id: MongoID }) | undefined>;
+  getByPatientId(
+    patientId: string
+  ): Promise<(Patient & { _id: MongoID }) | null | undefined>;
   updateByPatientId(
     id: string,
     patient: Partial<Patient>
-  ): Promise<Patient | null | undefined>;
-  getPatients(limit: string, cursor?: string): Promise<Patient[]>;
-  deleteByPatientId(patientId: string): Promise<Patient | null | undefined>;
+  ): Promise<(Patient & { _id: MongoID }) | null | undefined>;
+  getPatients(
+    limit: number,
+    cursor?: string
+  ): Promise<(Patient & { _id: MongoID }[]) | undefined>;
+  deleteByPatientId(
+    patientId: string
+  ): Promise<(Patient & { _id: MongoID }) | null | undefined>;
 }
 
 export interface IMedicationService {
-  create(medication: Medication): Promise<Medication | undefined>;
+  create(
+    medication: Medication
+  ): Promise<(Medication & { _id: MongoID }) | undefined>;
   getMedicationsByPatientId(
     id: string,
-    limit: string,
+    limit: number,
     cursor?: string
-  ): Promise<Medication[] | null | undefined>;
+  ): Promise<(Medication & { _id: MongoID }[]) | null | undefined>;
   updateByPatientId(
     id: string,
     medication: Partial<Medication>
-  ): Promise<Medication | null | undefined>;
-  deleteByPatientId(id: string): Promise<Medication | null | undefined>;
+  ): Promise<(Medication & { _id: MongoID }) | null | undefined>;
+  deleteByPatientId(
+    id: string
+  ): Promise<(Medication & { _id: MongoID }) | null | undefined>;
 }
 
 export interface IMedicalHistoryService {
-  create(medicalHistory: MedicalHistory): Promise<MedicalHistory | undefined>;
+  create(
+    medicalHistory: MedicalHistory
+  ): Promise<(MedicalHistory & { _id: MongoID }) | undefined>;
   getMedicalHistoriesByPatientId(
     id: string,
-    limit: string,
+    limit: number,
     cursor?: string
-  ): Promise<MedicalHistory[] | null | undefined>;
+  ): Promise<(MedicalHistory & { _id: MongoID }[]) | null | undefined>;
   updateByPatientId(
     id: string,
     medicalHistory: Partial<MedicalHistory>
-  ): Promise<MedicalHistory | null | undefined>;
-  deleteByPatientId(id: string): Promise<MedicalHistory | null | undefined>;
+  ): Promise<(MedicalHistory & { _id: MongoID }) | null | undefined>;
+  deleteByPatientId(
+    id: string
+  ): Promise<(MedicalHistory & { _id: MongoID }) | null | undefined>;
 }

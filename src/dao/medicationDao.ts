@@ -30,7 +30,7 @@ export class MedicationDao implements MedicalDataAccessObject<Medication> {
   ): Promise<(Medication & { _id: MongoID }) | null | undefined> {
     try {
       const updatedMedication = await this.medication.findOneAndUpdate(
-        { patientId: id },
+        { _id: id },
         data,
         { new: true }
       );
@@ -41,7 +41,7 @@ export class MedicationDao implements MedicalDataAccessObject<Medication> {
   }
 
   async getAll(
-    id: string,
+    patientId: string,
     limit: number,
     cursor?: string | undefined
   ): Promise<(Medication & { _id: MongoID; createdAt: Date })[] | undefined> {
@@ -51,7 +51,7 @@ export class MedicationDao implements MedicalDataAccessObject<Medication> {
       if (cursor) {
         data = await this.medication
           .find({
-            patientId: id,
+            patientId,
             _id: {
               $lte: cursor
             }
@@ -67,7 +67,7 @@ export class MedicationDao implements MedicalDataAccessObject<Medication> {
         .limit(limit + 1);
       return data;
     } catch (error) {
-      this.logger.error('Failed to get all medication', { error });
+      this.logger.error('Failed to get all medications', { error });
     }
   }
 
@@ -76,7 +76,7 @@ export class MedicationDao implements MedicalDataAccessObject<Medication> {
   ): Promise<(Medication & { _id: MongoID }) | null | undefined> {
     try {
       const deletedMedication = await this.medication.findOneAndDelete({
-        patientId: id
+        _id: id
       });
       return deletedMedication;
     } catch (error) {
