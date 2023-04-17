@@ -23,3 +23,17 @@ export interface DataAccessObject<T> {
   ): Promise<(T & { _id: MongoID }) | null | undefined>;
   delete(id: string): Promise<(T & { _id: MongoID }) | null | undefined>;
 }
+
+export interface MedicalDataAccessObject<T> {
+  create(data: T): Promise<(T & { _id: MongoID }) | undefined>;
+  getAll(
+    id: string,
+    limit: number,
+    cursor?: string
+  ): Promise<Array<T & { _id: MongoID; createdAt: Date }> | undefined>;
+  update(
+    id: string,
+    data: Partial<T>
+  ): Promise<(T & { _id: MongoID }) | null | undefined>;
+  delete(id: string): Promise<(T & { _id: MongoID }) | null | undefined>;
+}

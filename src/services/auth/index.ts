@@ -1,8 +1,17 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { IAuthenticationService, IUserService, JwtPayload, Token, User } from '../../types';
+import {
+  IAuthenticationService,
+  IUserService,
+  JwtPayload,
+  Token,
+  User
+} from '../../types';
 import { UserService } from '../user';
-import { JWT_EXPIRATION_TIME, JWT_REFRESH_TOKEN_EXPIRATION_TIME } from '../../utils';
+import {
+  JWT_EXPIRATION_TIME,
+  JWT_REFRESH_TOKEN_EXPIRATION_TIME
+} from '../../utils';
 
 export class AuthenticationService implements IAuthenticationService {
   private userService: IUserService;
@@ -18,21 +27,28 @@ export class AuthenticationService implements IAuthenticationService {
   }
 
   private generateToken(userId: string): Token {
-    const accessToken = jwt.sign({user: userId}, this.jwtSecret, { expiresIn: JWT_EXPIRATION_TIME });
-    const refreshToken = jwt.sign({user: userId}, this.jwtRefreshSecret, { expiresIn: JWT_REFRESH_TOKEN_EXPIRATION_TIME });
+    const accessToken = jwt.sign({ user: userId }, this.jwtSecret, {
+      expiresIn: JWT_EXPIRATION_TIME
+    });
+    const refreshToken = jwt.sign({ user: userId }, this.jwtRefreshSecret, {
+      expiresIn: JWT_REFRESH_TOKEN_EXPIRATION_TIME
+    });
     return {
       accessToken,
-      refreshToken,
-    }
+      refreshToken
+    };
   }
 
   async register(user: User): Promise<Token | null | undefined> {
-    const {email, password} = user;
+    const { email, password } = user;
     const userExists = await this.userService.getByEmail(email);
-    if (userExists) return null
-    
-    const hashedPassword = await bcrypt.hash(password, this.saltRounds)
-    const newUser = await this.userService.create({...user, password: hashedPassword});
+    if (userExists) return null;
+
+    const hashedPassword = await bcrypt.hash(password, this.saltRounds);
+    const newUser = await this.userService.create({
+      ...user,
+      password: hashedPassword
+    });
 
     if (newUser) {
       const token = this.generateToken(newUser._id as string);
@@ -40,7 +56,10 @@ export class AuthenticationService implements IAuthenticationService {
     }
   }
 
-  async login(email: string, password: string): Promise<Token | null | undefined> {
+  async login(
+    email: string,
+    password: string
+  ): Promise<Token | null | undefined> {
     const user = await this.userService.getByEmail(email);
     if (!user) return null;
 
@@ -53,8 +72,7 @@ export class AuthenticationService implements IAuthenticationService {
 
   verifyToken(token: string): JwtPayload | null | undefined {
     const decoded = jwt.verify(token, this.jwtSecret) as JwtPayload;
-    if (!decoded) return null
-    return decoded
+    if (!decoded) return null;
+    return decoded;
   }
-
 }

@@ -21,6 +21,7 @@ export class UserService implements IUserService {
    */
   async create(user: User): Promise<(User & { _id: MongoID }) | undefined> {
     const avatar = generateAvatar(user.email);
+    console.log('avatar', avatar);
     const data: User = { ...user, avatar };
     const newUser = this.userDao.create(data);
     return newUser;
