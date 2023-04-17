@@ -31,6 +31,7 @@ describe('User Data Access Object', () => {
   describe('create method', () => {
     it('should create a new user', async () => {
       const userData: User = {
+        avatar: 'my-avatar',
         firstName: 'Peter',
         lastName: 'Parker',
         email: 'upchh@example.com',
