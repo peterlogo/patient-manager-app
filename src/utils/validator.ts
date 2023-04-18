@@ -19,3 +19,30 @@ export const loginUserSchema = z.object({
 export const userParamsSchema = z.object({
   id: z.string()
 });
+
+export const patientSchema = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  email: z.string().email(),
+  phoneNumber: z.string(),
+  dateOfBirth: z.string(),
+  address: z.object({
+    street: z.string(),
+    city: z.string(),
+    state: z.string(),
+    zipCode: z.string()
+  })
+});
+
+export const medicationSchema = z.object({
+  patientId: z.string(),
+  name: z.string(),
+  dosage: z.string(),
+  frequency: z.string()
+});
+
+export const medicalHistorySchema = z.object({
+  patientId: z.string(),
+  condition: z.string(),
+  diagnosedDate: z.string()
+});
