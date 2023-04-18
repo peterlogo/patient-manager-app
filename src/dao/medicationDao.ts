@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 import { Logger } from 'pino';
 import { MedicalDataAccessObject, Medication, MongoID } from '../types';
 import { logger } from '../services';
@@ -81,6 +81,17 @@ export class MedicationDao implements MedicalDataAccessObject<Medication> {
       return deletedMedication;
     } catch (error) {
       this.logger.error('Failed to delete medication', { error });
+    }
+  }
+
+  async deleteAll(patientId: string): Promise<mongo.DeleteResult | undefined> {
+    try {
+      const deletedMedications = await this.medication.deleteMany({
+        patientId
+      });
+      return deletedMedications;
+    } catch (error) {
+      this.logger.error('Failed to delete all medications', { error });
     }
   }
 }

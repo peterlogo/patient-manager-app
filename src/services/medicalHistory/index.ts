@@ -1,3 +1,4 @@
+import { mongo } from 'mongoose';
 import { MedicalHistoryDao } from '../../dao';
 import {
   IMedicalHistoryService,
@@ -51,5 +52,12 @@ export class MedicalHistoryService implements IMedicalHistoryService {
   ): Promise<(MedicalHistory & { _id: MongoID }) | null | undefined> {
     const deletedMedicalHistory = await this.medicalHistoryDao.delete(id);
     return deletedMedicalHistory;
+  }
+
+  async deleteAllMedicalHistories(
+    id: string
+  ): Promise<mongo.DeleteResult | undefined> {
+    const response = await this.medicalHistoryDao.deleteAll(id);
+    return response;
   }
 }

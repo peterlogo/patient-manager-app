@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { MongoID } from './daoTypes';
 
 export interface Patient {
@@ -64,6 +65,9 @@ export interface IMedicationService {
   deleteByPatientId(
     id: string
   ): Promise<(Medication & { _id: MongoID }) | null | undefined>;
+  deleteAllMedications(
+    id: string
+  ): Promise<mongoose.mongo.DeleteResult | undefined>;
 }
 
 export interface IMedicalHistoryService {
@@ -82,4 +86,7 @@ export interface IMedicalHistoryService {
   deleteByPatientId(
     id: string
   ): Promise<(MedicalHistory & { _id: MongoID }) | null | undefined>;
+  deleteAllMedicalHistories(
+    id: string
+  ): Promise<mongoose.mongo.DeleteResult | undefined>;
 }

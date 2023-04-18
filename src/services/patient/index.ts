@@ -2,16 +2,24 @@ import { PatientDao } from '../../dao';
 import { v4 as uuidV4 } from 'uuid';
 import {
   DataAccessObject,
+  IMedicalHistoryService,
+  IMedicationService,
   IPatientService,
   MongoID,
   Patient
 } from '../../types';
+import { MedicalHistoryService } from '../medicalHistory';
+import { MedicationService } from '../medication';
 
 export class PatientService implements IPatientService {
   private patientDao: DataAccessObject<Patient>;
+  private medicationService: IMedicationService;
+  private medicalHistoryService: IMedicalHistoryService;
 
   constructor() {
     this.patientDao = new PatientDao();
+    this.medicalHistoryService = new MedicalHistoryService();
+    this.medicationService = new MedicationService();
   }
 
   async create(
@@ -49,6 +57,8 @@ export class PatientService implements IPatientService {
     patientId: string
   ): Promise<(Patient & { _id: MongoID }) | null | undefined> {
     const deletedPatient = await this.patientDao.delete(patientId);
+    await this.medicalHistoryService.deleteAllMedicalHistories(patientId);
+    await this.medicationService.deleteAllMedications(patientId);
     return deletedPatient;
   }
 }

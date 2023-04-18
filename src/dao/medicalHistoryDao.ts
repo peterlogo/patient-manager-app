@@ -98,4 +98,17 @@ export class MedicalHistoryDao
       this.logger.error('Failed to delete medical history', { error });
     }
   }
+
+  async deleteAll(
+    patientId: string
+  ): Promise<mongoose.mongo.DeleteResult | undefined> {
+    try {
+      const deletedHistory = await this.medicalHistory.deleteMany({
+        patientId
+      });
+      return deletedHistory;
+    } catch (error) {
+      this.logger.error('Failed to delete all medical histories', { error });
+    }
+  }
 }
