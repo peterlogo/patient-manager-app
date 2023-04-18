@@ -20,7 +20,7 @@ export class PatientDao implements DataAccessObject<Patient> {
       const newPatient = await this.patient.create(data);
       return newPatient;
     } catch (error) {
-      this.logger.error('Failed to create patient', { error });
+      this.logger.error({ error }, 'Failed to create patient');
     }
   }
 
@@ -31,7 +31,7 @@ export class PatientDao implements DataAccessObject<Patient> {
       const patient = await this.patient.findOne(query);
       return patient;
     } catch (error) {
-      this.logger.error('Failed to get patient', { error });
+      this.logger.error({ error }, 'Failed to get patient');
     }
   }
 
@@ -58,8 +58,9 @@ export class PatientDao implements DataAccessObject<Patient> {
         .find()
         .sort({ createdAt: -1 })
         .limit(limit + 1);
+      return data;
     } catch (error) {
-      this.logger.error('Failed to get patients', { error });
+      this.logger.error({ error }, 'Failed to get patients');
     }
   }
 
@@ -75,7 +76,7 @@ export class PatientDao implements DataAccessObject<Patient> {
       );
       return updatedPatient;
     } catch (error) {
-      this.logger.error('Failed to update patient', { error });
+      this.logger.error({ error }, 'Failed to update patient');
     }
   }
 
@@ -88,7 +89,7 @@ export class PatientDao implements DataAccessObject<Patient> {
       });
       return deletePatient;
     } catch (error) {
-      this.logger.error('Failed to delete patient', { error });
+      this.logger.error({ error }, 'Failed to delete patient');
     }
   }
 }

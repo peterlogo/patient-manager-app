@@ -15,8 +15,8 @@
     "build:dev": "npm run postbuild && rm -rf dist && tsc",
     "postbuild": "npm run format && npm run lint && npm run test",
     "postinstall": "husky install",
-    "test": "mocha --exit -r ts-node/register 'tests/**/*.ts' --timeout 10000",
-    "test:coverage": "nyc --reporter=html --reporter=text mocha --exit -r ts-node/register 'tests/**/*.ts'",
+    "test": "mocha --exit -r ts-node/register 'test/**/*.ts' --timeout 10000",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha --exit -r ts-node/register 'test/**/*.ts'",
     "test:watch": "nodemon --exec npm test"
   },
   "lint-staged": {
