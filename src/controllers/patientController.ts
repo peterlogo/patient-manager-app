@@ -70,6 +70,7 @@ export const getPatients = async (req: Request, res: Response) => {
     }
 
     const nextCursorRecord = patients[patients.length - 1]._id;
+    patients.pop();
 
     // console.log('nextCursorRecord: ', nextCursorRecord);
 
