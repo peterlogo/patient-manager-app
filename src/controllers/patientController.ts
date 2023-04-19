@@ -48,8 +48,6 @@ export const getPatients = async (req: Request, res: Response) => {
   try {
     const { limit, cursor } = req.query;
 
-    console.log({ limit, cursor });
-
     const pageLimit = parseInt(limit as string, 10) || 10;
 
     const patients = await patientService.getPatients(
@@ -57,11 +55,7 @@ export const getPatients = async (req: Request, res: Response) => {
       cursor as string
     );
 
-    // console.log('patients: ', patients);
-
     const more = patients?.length === pageLimit + 1;
-
-    // console.log('more: ', more);
 
     if (!more) {
       return res
@@ -71,8 +65,6 @@ export const getPatients = async (req: Request, res: Response) => {
 
     const nextCursorRecord = patients[patients.length - 1]._id;
     patients.pop();
-
-    // console.log('nextCursorRecord: ', nextCursorRecord);
 
     res
       .status(200)
@@ -85,8 +77,8 @@ export const getPatients = async (req: Request, res: Response) => {
 
 export const deletePatient = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
-    const patient = await patientService.deleteByPatientId(id);
+    const { patientId } = req.params;
+    const patient = await patientService.deleteByPatientId(patientId);
     if (!patient) {
       return res.status(400).json({ message: 'Patient not found' });
     }

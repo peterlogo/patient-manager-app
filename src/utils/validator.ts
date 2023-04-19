@@ -49,5 +49,10 @@ export const medicationSchema = z.object({
 export const medicalHistorySchema = z.object({
   patientId: z.string(),
   condition: z.string(),
-  diagnosedDate: z.string()
+  diagnosedDate: z
+    .string()
+    .regex(
+      DATE_FORMAT_REGEX,
+      'Please enter a valid date the format is YYYY-MM-DD'
+    )
 });

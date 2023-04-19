@@ -70,7 +70,7 @@ export class PatientDao implements DataAccessObject<Patient> {
   ): Promise<(Patient & { _id: MongoID }) | null | undefined> {
     try {
       const updatedPatient = await this.patient.findOneAndUpdate(
-        { patientId: id },
+        { _id: id },
         data,
         { new: true }
       );

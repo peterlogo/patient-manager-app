@@ -12,7 +12,8 @@ import {
   patientRouter,
   userRouter,
   authRouter,
-  medicationRouter
+  medicationRouter,
+  medicalHistoryRouter
 } from './routes';
 import { ROUTE_PREFIX } from './utils';
 
@@ -40,6 +41,7 @@ passport.use(
 );
 
 // Routes
+app.use(`${ROUTE_PREFIX}/history`, medicalHistoryRouter);
 app.use(`${ROUTE_PREFIX}/patients`, patientRouter);
 app.use(`${ROUTE_PREFIX}/medications`, medicationRouter);
 app.use(`${ROUTE_PREFIX}/users`, userRouter);

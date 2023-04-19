@@ -21,7 +21,7 @@ medicationRouter.post(
 
 medicationRouter.get('/:patientId', getMedications);
 
-medicationRouter.patch('/:patientId', updateMedication);
+medicationRouter.patch('/:id', updateMedication);
 
 medicationRouter.delete('/:id', deleteMedication);
 

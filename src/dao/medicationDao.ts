@@ -62,7 +62,7 @@ export class MedicationDao implements MedicalDataAccessObject<Medication> {
       }
 
       data = await this.medication
-        .find()
+        .find({ patientId })
         .sort({ createdAt: -1 })
         .limit(limit + 1);
       return data;
