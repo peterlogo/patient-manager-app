@@ -70,9 +70,23 @@ export class AuthenticationService implements IAuthenticationService {
     return token;
   }
 
-  verifyToken(token: string): JwtPayload | null | undefined {
+  verifyAccessToken(token: string): JwtPayload | null | undefined {
     const decoded = jwt.verify(token, this.jwtSecret) as JwtPayload;
     if (!decoded) return null;
     return decoded;
+  }
+
+  verifyRefreshToken(token: string): JwtPayload | null | undefined {
+    const decoded = jwt.verify(token, this.jwtRefreshSecret) as JwtPayload;
+    if (!decoded) return null;
+    return decoded;
+  }
+
+  refreshToken(token: string): Token | null | undefined {
+    const decoded = this.verifyRefreshToken(token);
+    if (!decoded) return null;
+    const { user } = decoded;
+    const newToken = this.generateToken(user);
+    return newToken;
   }
 }

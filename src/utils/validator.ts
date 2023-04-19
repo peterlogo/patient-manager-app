@@ -16,8 +16,12 @@ export const loginUserSchema = z.object({
   password: z.string()
 });
 
-export const userParamsSchema = z.object({
-  id: z.string()
+export const accessTokenSchema = z.object({
+  accessToken: z.string()
+});
+
+export const refreshTokenSchema = z.object({
+  refreshToken: z.string()
 });
 
 export const patientSchema = z.object({
