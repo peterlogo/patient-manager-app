@@ -51,14 +51,15 @@ describe('Patient Data Access Object', () => {
 
   describe('update method', () => {
     it('should update a patient', async () => {
-      const { patientId } = sample;
-      const data = await patientDao.update(patientId as string, {
+      const { _id } = sample;
+      const data = await patientDao.update(_id as string, {
         email: 'test@test.com'
       });
       expect(data).to.be.an('object');
     });
     it('should return null if the patient does not exist', async () => {
-      const data = await patientDao.update('sample-id', patient);
+      const id = new Types.ObjectId().toHexString();
+      const data = await patientDao.update(id, patient);
       expect(data).to.be.null;
     });
   });
