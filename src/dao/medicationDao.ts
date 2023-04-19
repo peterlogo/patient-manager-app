@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 import { Logger } from 'pino';
 import { MedicalDataAccessObject, Medication, MongoID } from '../types';
 import { logger } from '../services';
@@ -29,8 +29,8 @@ export class MedicationDao implements MedicalDataAccessObject<Medication> {
     data: Partial<Medication>
   ): Promise<(Medication & { _id: MongoID }) | null | undefined> {
     try {
-      const updatedMedication = await this.medication.findOneAndUpdate(
-        { patientId: id },
+      const updatedMedication = await this.medication.findByIdAndUpdate(
+        { _id: id },
         data,
         { new: true }
       );
@@ -41,7 +41,7 @@ export class MedicationDao implements MedicalDataAccessObject<Medication> {
   }
 
   async getAll(
-    id: string,
+    patientId: string,
     limit: number,
     cursor?: string | undefined
   ): Promise<(Medication & { _id: MongoID; createdAt: Date })[] | undefined> {
@@ -51,7 +51,7 @@ export class MedicationDao implements MedicalDataAccessObject<Medication> {
       if (cursor) {
         data = await this.medication
           .find({
-            patientId: id,
+            patientId,
             _id: {
               $lte: cursor
             }
@@ -62,12 +62,12 @@ export class MedicationDao implements MedicalDataAccessObject<Medication> {
       }
 
       data = await this.medication
-        .find()
+        .find({ patientId })
         .sort({ createdAt: -1 })
         .limit(limit + 1);
       return data;
     } catch (error) {
-      this.logger.error('Failed to get all medication', { error });
+      this.logger.error('Failed to get all medications', { error });
     }
   }
 
@@ -76,11 +76,22 @@ export class MedicationDao implements MedicalDataAccessObject<Medication> {
   ): Promise<(Medication & { _id: MongoID }) | null | undefined> {
     try {
       const deletedMedication = await this.medication.findOneAndDelete({
-        patientId: id
+        _id: id
       });
       return deletedMedication;
     } catch (error) {
       this.logger.error('Failed to delete medication', { error });
+    }
+  }
+
+  async deleteAll(patientId: string): Promise<mongo.DeleteResult | undefined> {
+    try {
+      const deletedMedications = await this.medication.deleteMany({
+        patientId
+      });
+      return deletedMedications;
+    } catch (error) {
+      this.logger.error('Failed to delete all medications', { error });
     }
   }
 }

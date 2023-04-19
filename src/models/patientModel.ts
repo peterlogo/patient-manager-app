@@ -21,11 +21,13 @@ const PatientSchema: Schema = new Schema<Patient>(
     },
     email: {
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     phoneNumber: {
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     address: {
       street: {

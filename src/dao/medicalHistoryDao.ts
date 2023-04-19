@@ -43,7 +43,7 @@ export class MedicalHistoryDao
   ): Promise<(MedicalHistory & { _id: MongoID }) | null | undefined> {
     try {
       const updatedHistory = await this.medicalHistory.findOneAndUpdate(
-        { patientId: id },
+        { _id: id },
         data,
         { new: true }
       );
@@ -54,7 +54,7 @@ export class MedicalHistoryDao
   }
 
   async getAll(
-    id: string,
+    patientId: string,
     limit: number,
     cursor?: string | undefined
   ): Promise<
@@ -66,7 +66,7 @@ export class MedicalHistoryDao
       if (cursor) {
         data = await this.medicalHistory
           .find({
-            patientId: id,
+            patientId,
             _id: {
               $lte: cursor
             }
@@ -82,7 +82,7 @@ export class MedicalHistoryDao
         .limit(limit + 1);
       return data;
     } catch (error) {
-      this.logger.error('Failed to get all medical history', { error });
+      this.logger.error('Failed to get all medical histories', { error });
     }
   }
 
@@ -91,11 +91,24 @@ export class MedicalHistoryDao
   ): Promise<(MedicalHistory & { _id: MongoID }) | null | undefined> {
     try {
       const deletedHistory = await this.medicalHistory.findOneAndDelete({
-        patientId: id
+        _id: id
       });
       return deletedHistory;
     } catch (error) {
       this.logger.error('Failed to delete medical history', { error });
+    }
+  }
+
+  async deleteAll(
+    patientId: string
+  ): Promise<mongoose.mongo.DeleteResult | undefined> {
+    try {
+      const deletedHistory = await this.medicalHistory.deleteMany({
+        patientId
+      });
+      return deletedHistory;
+    } catch (error) {
+      this.logger.error('Failed to delete all medical histories', { error });
     }
   }
 }
