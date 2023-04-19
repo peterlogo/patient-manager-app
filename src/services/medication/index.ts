@@ -1,3 +1,4 @@
+import { mongo } from 'mongoose';
 import { MedicationDao } from '../../dao';
 import {
   IMedicationService,
@@ -29,7 +30,7 @@ export class MedicationService implements IMedicationService {
     return medications;
   }
 
-  async updateByPatientId(
+  async updateById(
     id: string,
     medication: Partial<Medication>
   ): Promise<(Medication & { _id: MongoID }) | null | undefined> {
@@ -37,10 +38,17 @@ export class MedicationService implements IMedicationService {
     return updatedMedication;
   }
 
-  async deleteByPatientId(
+  async deleteById(
     id: string
   ): Promise<(Medication & { _id: MongoID }) | null | undefined> {
     const deletedMedication = await this.medicationDao.delete(id);
     return deletedMedication;
+  }
+
+  async deleteAllMedications(
+    id: string
+  ): Promise<mongo.DeleteResult | undefined> {
+    const response = await this.medicationDao.deleteAll(id);
+    return response;
   }
 }

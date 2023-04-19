@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { Types, mongo } from 'mongoose';
 
 /**
  * MongoDB id type definition
@@ -36,4 +36,5 @@ export interface MedicalDataAccessObject<T> {
     data: Partial<T>
   ): Promise<(T & { _id: MongoID }) | null | undefined>;
   delete(id: string): Promise<(T & { _id: MongoID }) | null | undefined>;
+  deleteAll(patientId: string): Promise<mongo.DeleteResult | undefined>;
 }

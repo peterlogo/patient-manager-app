@@ -8,9 +8,14 @@ import { pinoHttp } from 'pino-http';
 import { logger } from './services';
 import { config } from './config';
 import { databaseLogger, initializeMongoDBConnection } from './db';
-import { userRouter } from './routes';
+import {
+  patientRouter,
+  userRouter,
+  authRouter,
+  medicationRouter,
+  medicalHistoryRouter
+} from './routes';
 import { ROUTE_PREFIX } from './utils';
-import { authRouter } from './routes/authRouter';
 
 const { port } = config;
 const app: Express = express();
@@ -36,6 +41,9 @@ passport.use(
 );
 
 // Routes
+app.use(`${ROUTE_PREFIX}/history`, medicalHistoryRouter);
+app.use(`${ROUTE_PREFIX}/patients`, patientRouter);
+app.use(`${ROUTE_PREFIX}/medications`, medicationRouter);
 app.use(`${ROUTE_PREFIX}/users`, userRouter);
 app.use(`${ROUTE_PREFIX}`, authRouter);
 

@@ -17,7 +17,7 @@ export const registerUser = async (req: Request, res: Response) => {
         message: 'Authentication failed'
       });
     }
-    res.status(201).json({ data: token });
+    res.status(200).json({ data: token });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }
@@ -32,8 +32,39 @@ export const loginUser = async (req: Request, res: Response) => {
         message: 'Authentication failed'
       });
     }
-    res.status(201).json({ data: token });
+    res.status(200).json({ data: token });
   } catch (error) {
+    req.log.error({ error });
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const refreshToken = async (req: Request, res: Response) => {
+  try {
+    const token = authService.refreshToken(req.body);
+    if (!token) {
+      return res.status(401).json({
+        message: 'Authentication failed'
+      });
+    }
+    res.status(200).json({ data: token });
+  } catch (error) {
+    req.log.error({ error });
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const verifyAccessToken = async (req: Request, res: Response) => {
+  try {
+    const token = authService.verifyAccessToken(req.body);
+    if (!token) {
+      return res.status(401).json({
+        message: 'Authentication failed'
+      });
+    }
+    res.status(200).json({ data: 'success' });
+  } catch (error) {
+    req.log.error({ error });
     res.status(500).json({ message: 'Internal server error' });
   }
 };

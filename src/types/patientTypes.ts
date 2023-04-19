@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { MongoID } from './daoTypes';
 
 export interface Patient {
@@ -32,10 +33,11 @@ export interface Medication {
 
 export interface IPatientService {
   create(patient: Patient): Promise<(Patient & { _id: MongoID }) | undefined>;
+  getById(id: string): Promise<(Patient & { _id: MongoID }) | null | undefined>;
   getByPatientId(
     patientId: string
   ): Promise<(Patient & { _id: MongoID }) | null | undefined>;
-  updateByPatientId(
+  updateById(
     id: string,
     patient: Partial<Patient>
   ): Promise<(Patient & { _id: MongoID }) | null | undefined>;
@@ -57,13 +59,16 @@ export interface IMedicationService {
     limit: number,
     cursor?: string
   ): Promise<(Medication & { _id: MongoID }[]) | null | undefined>;
-  updateByPatientId(
+  updateById(
     id: string,
     medication: Partial<Medication>
   ): Promise<(Medication & { _id: MongoID }) | null | undefined>;
-  deleteByPatientId(
+  deleteById(
     id: string
   ): Promise<(Medication & { _id: MongoID }) | null | undefined>;
+  deleteAllMedications(
+    id: string
+  ): Promise<mongoose.mongo.DeleteResult | undefined>;
 }
 
 export interface IMedicalHistoryService {
@@ -75,11 +80,14 @@ export interface IMedicalHistoryService {
     limit: number,
     cursor?: string
   ): Promise<(MedicalHistory & { _id: MongoID }[]) | null | undefined>;
-  updateByPatientId(
+  updateById(
     id: string,
     medicalHistory: Partial<MedicalHistory>
   ): Promise<(MedicalHistory & { _id: MongoID }) | null | undefined>;
-  deleteByPatientId(
+  deleteById(
     id: string
   ): Promise<(MedicalHistory & { _id: MongoID }) | null | undefined>;
+  deleteAllMedicalHistories(
+    id: string
+  ): Promise<mongoose.mongo.DeleteResult | undefined>;
 }
