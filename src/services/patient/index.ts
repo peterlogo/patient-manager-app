@@ -30,6 +30,13 @@ export class PatientService implements IPatientService {
     return newPatient;
   }
 
+  async getById(
+    id: string
+  ): Promise<(Patient & { _id: MongoID }) | null | undefined> {
+    const patient = await this.patientDao.get({ _id: id });
+    return patient;
+  }
+
   async getByPatientId(
     patientId: string
   ): Promise<(Patient & { _id: MongoID }) | null | undefined> {
@@ -45,7 +52,7 @@ export class PatientService implements IPatientService {
     return patients;
   }
 
-  async updateByPatientId(
+  async updateById(
     id: string,
     patient: Partial<Patient>
   ): Promise<(Patient & { _id: MongoID }) | null | undefined> {

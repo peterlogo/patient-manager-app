@@ -29,7 +29,7 @@ export class MedicationDao implements MedicalDataAccessObject<Medication> {
     data: Partial<Medication>
   ): Promise<(Medication & { _id: MongoID }) | null | undefined> {
     try {
-      const updatedMedication = await this.medication.findOneAndUpdate(
+      const updatedMedication = await this.medication.findByIdAndUpdate(
         { _id: id },
         data,
         { new: true }

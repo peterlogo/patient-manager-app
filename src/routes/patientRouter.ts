@@ -26,6 +26,6 @@ patientRouter.get('/:id', getPatient);
 
 patientRouter.get('/', getPatients);
 
-patientRouter.delete('/:id', deletePatient);
+patientRouter.delete('/:patientId', deletePatient);
 
 export { patientRouter };

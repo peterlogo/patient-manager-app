@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { STRONG_PASSWORD_REGEX } from './constants';
+import { DATE_FORMAT_REGEX, STRONG_PASSWORD_REGEX } from './constants';
 
 export const newUserSchema = z.object({
   firstName: z.string(),
@@ -25,7 +25,12 @@ export const patientSchema = z.object({
   lastName: z.string(),
   email: z.string().email(),
   phoneNumber: z.string(),
-  dateOfBirth: z.string(),
+  dateOfBirth: z
+    .string()
+    .regex(
+      DATE_FORMAT_REGEX,
+      'Please enter a valid date the format is YYYY-MM-DD'
+    ),
   address: z.object({
     street: z.string(),
     city: z.string(),

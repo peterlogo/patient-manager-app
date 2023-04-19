@@ -30,7 +30,7 @@ export class MedicationService implements IMedicationService {
     return medications;
   }
 
-  async updateByPatientId(
+  async updateById(
     id: string,
     medication: Partial<Medication>
   ): Promise<(Medication & { _id: MongoID }) | null | undefined> {
@@ -38,7 +38,7 @@ export class MedicationService implements IMedicationService {
     return updatedMedication;
   }
 
-  async deleteByPatientId(
+  async deleteById(
     id: string
   ): Promise<(Medication & { _id: MongoID }) | null | undefined> {
     const deletedMedication = await this.medicationDao.delete(id);

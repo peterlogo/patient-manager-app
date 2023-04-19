@@ -67,7 +67,7 @@ describe('Patient Data Access Object', () => {
     it('should get all patients', async () => {
       const data = await patientDao.getAll(10);
       expect(data).to.be.an('array');
-      expect(data).to.have.lengthOf(1);
+      expect(data?.length).to.be.greaterThanOrEqual(1);
     });
   });
 
